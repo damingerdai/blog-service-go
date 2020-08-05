@@ -1,0 +1,26 @@
+version: "3"
+services:
+    db:
+        image: mysql:5.7
+        volumes:
+            - daming-blog-volume:/var/lib/mysql
+            - ./init.sql:/docker-entrypoint-initdb.db/init.sql
+        restart: always
+        ports:
+            # <Port exposed> : < MySQL Port running inside container>
+            - '3306:3306'
+        networks:
+            - daming-blog-network
+        volumes: 
+            - daming-blog-volume
+        environment:
+            MYSQL_ROOT_PASSWORD: 267552
+            MYSQL_DATABASE: blog
+            MYSQL_USER: daming
+            MYSQL_PASSWORD: 267552
+networks:
+    daming-blog-network:
+        external: false
+volumes: 
+    daming-blog-volume:
+        external: false
