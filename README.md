@@ -16,6 +16,10 @@ docker-compose build db
 ```
 
 > if you meet this issue:
+```
+db use images
+```
+please run:
 ```bash
 docker-compose up --force-recreate db
 ```
