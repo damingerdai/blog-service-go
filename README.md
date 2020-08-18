@@ -8,7 +8,7 @@ docker volume create daming-blog-volume
 ```
 ## create network
 ```bash
-docker network create daming-blog-volume
+docker network create daming-blog-network
 ```
 ## create mysql database
 ```bash
