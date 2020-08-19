@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-gonic/gin"
+
 	"github.com/damingerdai/blog-service/global"
 
 	"github.com/damingerdai/blog-service/internal/routers"
@@ -23,6 +25,7 @@ func main() {
 	// r.GET("/ping", func(c *gin.Context) {
 	// 	c.JSON(200, gin.H{"message": "pong"})
 	// })
+	gin.SetMode(global.ServerSetting.RunMode)
 	router := routers.NewRouter()
 	s := &http.Server{
 		Addr:           ":8080",
