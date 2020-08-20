@@ -9,14 +9,21 @@ import (
 
 	"github.com/damingerdai/blog-service/global"
 
+	"github.com/damingerdai/blog-service/internal/model"
 	"github.com/damingerdai/blog-service/internal/routers"
 	"github.com/damingerdai/blog-service/pkg/setting"
 )
 
 func init() {
-	err := setupSetting()
+	var err error
+	err = setupSetting()
 	if err != nil {
 		log.Fatalf("init setup Setting err: %v", err)
+	}
+
+	err = setupDBEngine()
+	if err != nil {
+		log.Fatalf("init setup DBEngine err: %v", err)
 	}
 }
 
@@ -60,4 +67,14 @@ func setupSetting() error {
 	global.ServerSetting.WriteTimeout *= time.Second
 
 	return nil
+}
+
+func setupDBEngine() error {
+	var err error
+	global.DBEngine, err = model.NewDBEngine(global.DatabaseSetting)
+	if err != nil {
+		return nil
+	}
+
+	return err
 }
