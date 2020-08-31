@@ -3,7 +3,10 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 	"time"
+
+	"github.com/damingerdai/blog-service/pkg/logger"
 
 	"github.com/gin-gonic/gin"
 
@@ -24,6 +27,11 @@ func init() {
 	err = setupDBEngine()
 	if err != nil {
 		log.Fatalf("init setup DBEngine err: %v", err)
+	}
+
+	err = setupLogger()
+	if err != nil {
+		log.Fatalf("init setp Logger err: %v", err)
 	}
 }
 
@@ -77,4 +85,14 @@ func setupDBEngine() error {
 	}
 
 	return err
+}
+
+func setupLogger() error {
+	global.Logger = logger.NewLogger(&lumberjack.Logger{
+		Filename:  global.AppSetting.LogSavePath + os.PathSeparator + global.AppSetting.LogFileName + global.AppSetting.LogFileExt,
+		MaxSize:   600,
+		MaxAge:    10,
+		LocalTime: true,
+	}, "", log.LstdFlags).WithCaller(2)
+	return nil
 }

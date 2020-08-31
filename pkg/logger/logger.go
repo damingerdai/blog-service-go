@@ -82,7 +82,7 @@ func (l *Logger) WithContext(ctx context.Context) *Logger {
 	return ll
 }
 
-func (l *Logger) WitchCaller(skip int) *Logger {
+func (l *Logger) WithCaller(skip int) *Logger {
 	ll := l.clone()
 	pc, file, line, ok := runtime.Caller(skip)
 	if ok {
