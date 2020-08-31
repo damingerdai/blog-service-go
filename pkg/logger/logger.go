@@ -147,3 +147,27 @@ func (l *Logger) Output(message string) {
 		l.newLogger.Panic(content)
 	}
 }
+
+func (l *Logger) Debug(v ...interface{}) {
+	l.WithLevel(LevelDebug).Output(fmt.Sprint(v...))
+}
+
+func (l *Logger) Debugf(format string, v ...interface{}) {
+	l.WithLevel(LevelDebug).Output(fmt.Sprintf(format, v...))
+}
+
+func (l *Logger) Info(v ...interface{}) {
+	l.WithLevel(LevelInfo).Output(fmt.Sprint(v...))
+}
+
+func (l *Logger) Infof(format string, v ...interface{}) {
+	l.WithLevel(LevelInfo).Output(fmt.Sprintf(format, v...))
+}
+
+func (l *Logger) Fatal(v ...interface{}) {
+	l.WithLevel(LevelFatal).Output(fmt.Sprint(v...))
+}
+
+func (l *Logger) Fatalf(format string, v ...interface{}) {
+	l.WithLevel(LevelFatal).Output(fmt.Sprintf(format, v...))
+}
