@@ -1,13 +1,15 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"time"
 
-	"github.com/damingerdai/blog-service/pkg/logger"
+	"gopkg.in/natefinch/lumberjack.v2"
 
+	"github.com/damingerdai/blog-service/pkg/logger"
 	"github.com/gin-gonic/gin"
 
 	"github.com/damingerdai/blog-service/global"
@@ -62,7 +64,7 @@ func setupSetting() error {
 	if err != nil {
 		return err
 	}
-	err = setting.ReadSection("App", &global.ServerSetting)
+	err = setting.ReadSection("App", &global.AppSetting)
 	if err != nil {
 		return err
 	}
@@ -88,8 +90,10 @@ func setupDBEngine() error {
 }
 
 func setupLogger() error {
+	filename := global.AppSetting.LogSavePath + string(os.PathSeparator) + global.AppSetting.LogFileName + global.AppSetting.LogFileExt
+	fmt.Println(filename)
 	global.Logger = logger.NewLogger(&lumberjack.Logger{
-		Filename:  global.AppSetting.LogSavePath + os.PathSeparator + global.AppSetting.LogFileName + global.AppSetting.LogFileExt,
+		Filename:  global.AppSetting.LogSavePath + string(os.PathSeparator) + global.AppSetting.LogFileName + global.AppSetting.LogFileExt,
 		MaxSize:   600,
 		MaxAge:    10,
 		LocalTime: true,

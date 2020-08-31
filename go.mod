@@ -21,5 +21,6 @@ require (
 	golang.org/x/sys v0.0.0-20200817085935-3ff754bf58a9 // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/ini.v1 v1.60.0 // indirect
+	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 )
