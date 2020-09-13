@@ -90,6 +90,9 @@ func setupDBEngine() error {
 		return nil
 	}
 
+	if global.ServerSetting.RunMode == "debug" {
+		global.DBEngine.LogMode(true)
+	}
 	return err
 }
 
