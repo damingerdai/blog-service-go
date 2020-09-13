@@ -37,6 +37,10 @@ func init() {
 	}
 }
 
+// @title 博客系统
+// @version 1.0
+// @description 大明二代使用Golang做项目
+// @termsOfService https://github.com/damingerdai/blog-service-go
 func main() {
 	// r := gin.Default()
 	// r.GET("/ping", func(c *gin.Context) {
