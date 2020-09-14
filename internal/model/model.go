@@ -57,3 +57,41 @@ func updateTimeStampForUpdateCallback(scope *gorm.Scope) {
 		_ = scope.SetColumn("ModifiedOn", time.Now().Unix())
 	}
 }
+
+func deleteCallback(scope *gorm.Scope) {
+	if !scope.HasError() {
+		var extraOption string
+		if str, ok := scope.Get("gorm:delete_option"); ok {
+			extraOption = fmt.Sprint(str)
+		}
+		deleteOnField, hasDeletedOnField := scope.FieldByName("DeletedOn")
+		isDelField, hasIsDelField := scope.FieldByName("IsDel")
+		if !scope.Search.Unscoped && hasDeletedOnField && hasIsDelField {
+			now := time.Now().Unix()
+			scope.Raw(fmt.Sprintf(
+				"UPDATE %v SET %v=%v; %v=%v%v%v",
+				scope.QuotedTableName(),
+				scope.Quote(deleteOnField.DBName),
+				scope.AddToVars(now),
+				scope.Quote(isDelField.DBName),
+				scope.AddToVars(1),
+				addExtraSpaceIfExist(scope.CombinedConditionSql()),
+				addExtraSpaceIfExist(extraOption),
+			)).Exec()
+		} else {
+			scope.Raw(fmt.Sprintf(
+				"DELETE FROM %v%v%v",
+				scope.QuotedTableName(),
+				addExtraSpaceIfExist(scope.CombinedConditionSql()),
+				addExtraSpaceIfExist(extraOption),
+			))
+		}
+	}
+}
+
+func addExtraSpaceIfExist(str string) string {
+	if str != "" {
+		return " " + str
+	}
+	return ""
+}
