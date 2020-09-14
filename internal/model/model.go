@@ -30,6 +30,10 @@ func NewDBEngine(databaseSetting *setting.DatabaseSettings) (*gorm.DB, error) {
 		db.LogMode(true)
 	}
 	db.SingularTable(true)
+	db.Callback().Create().Replace("gorm:update_time_stampe", updateTimeStampForCreateCallback)
+	db.Callback().Update().Replace("gorm:update_time_stampe", updateTimeStampForUpdateCallback)
+	db.Callback().Delete().Replace("gorm:delete", deleteCallback)
+
 	db.DB().SetMaxIdleConns(databaseSetting.MaxIdleConns)
 	db.DB().SetMaxOpenConns(databaseSetting.MaxOpenConns)
 
