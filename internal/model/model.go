@@ -51,3 +51,9 @@ func updateTimeStampForCreateCallback(scope *gorm.Scope) {
 		}
 	}
 }
+
+func updateTimeStampForUpdateCallback(scope *gorm.Scope) {
+	if _, ok := scope.Get("gorm:update_column"); ok {
+		_ = scope.SetColumn("ModifiedOn", time.Now().Unix())
+	}
+}
