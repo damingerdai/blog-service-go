@@ -2,6 +2,7 @@ package routers
 
 import (
 	_ "github.com/damingerdai/blog-service/docs"
+	"github.com/damingerdai/blog-service/global"
 	"github.com/damingerdai/blog-service/internal/middleware"
 	v1 "github.com/damingerdai/blog-service/internal/routers/api/v1"
 	"github.com/gin-gonic/gin"
@@ -11,8 +12,11 @@ import (
 
 func NewRouter() *gin.Engine {
 	r := gin.New()
-	// r.Use(gin.Logger())
-	r.Use(middleware.AccessLog())
+	if global.ServerSetting.RunMode == "debug" {
+		r.Use(gin.Logger())
+	} else {
+		r.Use(middleware.AccessLog())
+	}
 	r.Use(gin.Recovery())
 	r.Use(middleware.Translations())
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
